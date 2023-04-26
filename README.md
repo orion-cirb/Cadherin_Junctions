@@ -16,9 +16,9 @@
 
 ### Macros description
 
-* Step 1: *preprocessing.ijm:* 
-  a. DAPI channel: sum Z-projection + Otsu thresholding + median filtering + watersheding
-  b. EGFP channel: find focused slices + max z-projection
+* **Step 1:** *preprocessing.ijm:* 
+  * DAPI channel: sum Z-projection + Otsu thresholding + median filtering + watersheding
+  * EGFP channel: find focused slices + max z-projection
   
 * Step 2: Use ilastik
 
