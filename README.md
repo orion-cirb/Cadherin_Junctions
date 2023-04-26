@@ -20,7 +20,7 @@
   * DAPI channel: sum Z-projection + Otsu thresholding + median filtering + watersheding
   * EGFP channel: find focused slices + max z-projection
   
-* **Step 2:** use *ilastik* to train a pixel classifier that can segment the EGFP channel image in 4 different classes: thin, finger, reticular and background
+* **Step 2:** use *ilastik* to train a pixel classifier that can segment the EGFP channel in 4 different classes: thin, finger, reticular and background
 
 * **Step 3:** *postprocessing.ijm* or *postprocessing_grid.ijm + draw_grid.ijm:*
   * DAPI channel: count the number of nuclei
