@@ -10,13 +10,17 @@
 
 2D images taken with a x63 objective on a widefield microscope
 
-3 channels:
+2 channels:
   1. *EGFP:* Cadherin junctions
   2. *DAPI:* Nuclei
 
 ### Macros description
 
-1. *preprocessing.ijm:*
+* Step 1: *preprocessing.ijm:* 
+  a. DAPI channel: sum Z-projection + Otsu thresholding + median filtering + watersheding
+  b. EGFP channel: find focused slices + max z-projection
+  
+* Step 2: Use ilastik
 
 
 ### Version history
