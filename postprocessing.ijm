@@ -11,7 +11,7 @@ if (!File.isDirectory(outputDirectory)) {
 
 // Create xls file to save results
 file = File.open(outputDirectory+"results.xls");
-print(file, "Image name\tNb nuclei\tThin area\tFinger area\tReticular area\tBackground area\n");
+print(file, "Image name\tNb nuclei\tThin area\tFinger area\tReticular area\tBackground area\tThin %\tFinger %\tReticular %\tBackground %\tJunction >50%\n");
 	
 // Get the list of files from the input directory
 fileList = getFileList(inputDirectory+"junctions/");
@@ -24,19 +24,30 @@ for (i = 0; i < fileList.length; i++) {
 	open(inputDirectory + "junctions_seg/" + fileList[i]);
 	run("glasbey on dark");
 	run("Median...", "radius=5");
-			setThreshold(1, 1); // thin
-			List.setMeasurements("limit");
-			thinArea = List.getValue("Area");
-			setThreshold(2, 2); // finger
-			List.setMeasurements("limit");
-			fingerArea = List.getValue("Area");
-			setThreshold(3, 3); // reticular
-			List.setMeasurements("limit");
-			reticularArea = List.getValue("Area");
-			setThreshold(4, 4); // background
-			List.setMeasurements("limit");
-			bgArea = List.getValue("Area");
-			print(file, replace(fileList[i], "-EGFP", "")+"\t"+nbNuclei+"\t"+thinArea+"\t"+fingerArea+"\t"+reticularArea+"\t"+bgArea+"\n");
+	
+	imgSize = getValue("image.size");
+	setThreshold(1, 1); // thin
+	List.setMeasurements("limit");
+	thinArea = List.getValue("Area");
+	thinPerc = thinArea / imgSize * 100;
+	setThreshold(2, 2); // finger
+	List.setMeasurements("limit");
+	fingerArea = List.getValue("Area");
+	fingerPerc = fingerArea / imgSize * 100;
+	setThreshold(3, 3); // reticular
+	List.setMeasurements("limit");
+	reticularArea = List.getValue("Area");
+	reticularPerc = reticularArea / imgSize * 100;
+	setThreshold(4, 4); // background
+	List.setMeasurements("limit");
+	bgArea = List.getValue("Area");
+	bgPerc = bgArea / imgSize * 100;
+	
+	junction = "";
+	if(thinPerc >= 50) junction = "Thin";
+	else if(fingerPerc >= 50) junction = "Finger";
+	else if(reticularPerc >= 50) junction = "Reticular";
+	print(file, replace(fileList[i], "-EGFP", "")+"\t"+nbNuclei+"\t"+thinArea+"\t"+fingerArea+"\t"+reticularArea+"\t"+bgArea+"\t"+thinPerc+"\t"+fingerPerc+"\t"+reticularPerc+"\t"+bgPerc+"\t"+junction+"\n");
 	
 	open(inputDirectory + "junctions/" + fileList[i]);
 	run("Add Image...", "image=["+ fileList[i] +"] x=0 y=0 opacity=15");

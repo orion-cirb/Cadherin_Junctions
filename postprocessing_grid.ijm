@@ -11,7 +11,7 @@ if (!File.isDirectory(outputDirectory)) {
 
 // Create xls file to save results
 file = File.open(outputDirectory+"results_grid.xls");
-print(file, "Image name\tNb nuclei\t64x64pix² ROI ID\tThin area\tFinger area\tReticular area\tBackground area\n");
+print(file, "Image name\tNb nuclei\t64x64pix² ROI ID\tThin area\tFinger area\tReticular area\tBackground area\tThin %\tFinger %\tReticular %\tBackground %\tJunction >50%\n");
 	
 // Get the list of files from the input directory
 fileList = getFileList(inputDirectory+"junctions/");
@@ -25,22 +25,32 @@ for (i = 0; i < fileList.length; i++) {
 	run("glasbey on dark");
 	run("Median...", "radius=5");
 	roiID = 1;
+	cellSize = 64*64;
 	for (j = 0; j < 32; j++) {
 		for (k = 0; k < 32; k++) {
 			run("Specify...", "width=64 height=64 x="+k*64+" y="+j*64);
 			setThreshold(1, 1); // thin
 			List.setMeasurements("limit");
 			thinArea = List.getValue("Area");
+			thinPerc = thinArea / cellSize * 100;
 			setThreshold(2, 2); // finger
 			List.setMeasurements("limit");
 			fingerArea = List.getValue("Area");
+			fingerPerc = fingerArea / cellSize * 100;
 			setThreshold(3, 3); // reticular
 			List.setMeasurements("limit");
 			reticularArea = List.getValue("Area");
+			reticularPerc = reticularArea / cellSize * 100;
 			setThreshold(4, 4); // background
 			List.setMeasurements("limit");
 			bgArea = List.getValue("Area");
-			print(file, replace(fileList[i], "-EGFP", "")+"\t"+nbNuclei+"\t"+roiID+"\t"+thinArea+"\t"+fingerArea+"\t"+reticularArea+"\t"+bgArea+"\n");
+			bgPerc = bgArea / cellSize * 100;
+			
+			junction = "";
+			if(thinPerc >= 50) junction = "Thin";
+			else if(fingerPerc >= 50) junction = "Finger";
+			else if(reticularPerc >= 50) junction = "Reticular";
+			print(file, replace(fileList[i], "-EGFP", "")+"\t"+nbNuclei+"\t"+roiID+"\t"+thinArea+"\t"+fingerArea+"\t"+reticularArea+"\t"+bgArea+"\t"+thinPerc+"\t"+fingerPerc+"\t"+reticularPerc+"\t"+bgPerc+"\t"+junction+"\n");
 			roiID++;
 		}
 	}
