@@ -24,7 +24,7 @@
 
 * **Step 3:** *postprocessing.ijm* or *postprocessing_grid.ijm + draw_grid.ijm:*
   * DAPI channel: count the number of nuclei
-  * EGFP channel: measure the area of the 4 different classes (in the entire image or in each 64x64 pixels cell of a grid)
+  * EGFP channel: measure the area of the 4 different classes (in the entire image or in each 64x64 pixels<sub>2</sub> cell of a grid)
 
 
 ### Version history
