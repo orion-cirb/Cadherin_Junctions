@@ -11,7 +11,7 @@ if (!File.isDirectory(outputDirectory)) {
 
 // Create xls file to save results
 file = File.open(outputDirectory+"results_grid.xls");
-print(file, "Image name\tNb nuclei\t64x64pix² ROI ID\tThin area\tFinger area\tReticular area\tBackground area\tThin %\tFinger %\tReticular %\tBackground %\tJunction >50%\n");
+print(file, "Image name\tNb nuclei\t64x64pix² ROI ID\tThin area\tFinger area\tReticular area\tBackground area\tThin %\tFinger %\tReticular %\tBackground %\tJunction >50%\tThin % (w/o bg)\tFinger % (w/o bg)\tReticular % (w/o bg)\tJunction >50% (w/o bg)\n");
 	
 // Get the list of files from the input directory
 fileList = getFileList(inputDirectory+"junctions/");
@@ -32,25 +32,39 @@ for (i = 0; i < fileList.length; i++) {
 			setThreshold(1, 1); // thin
 			List.setMeasurements("limit");
 			thinArea = List.getValue("Area");
-			thinPerc = thinArea / cellSize * 100;
 			setThreshold(2, 2); // finger
 			List.setMeasurements("limit");
 			fingerArea = List.getValue("Area");
-			fingerPerc = fingerArea / cellSize * 100;
 			setThreshold(3, 3); // reticular
 			List.setMeasurements("limit");
 			reticularArea = List.getValue("Area");
-			reticularPerc = reticularArea / cellSize * 100;
 			setThreshold(4, 4); // background
 			List.setMeasurements("limit");
 			bgArea = List.getValue("Area");
+			
+			// Background taken into account
+			thinPerc = thinArea / cellSize * 100;
+			fingerPerc = fingerArea / cellSize * 100;
+			reticularPerc = reticularArea / cellSize * 100;
 			bgPerc = bgArea / cellSize * 100;
 			
 			junction = "";
 			if(thinPerc >= 50) junction = "Thin";
 			else if(fingerPerc >= 50) junction = "Finger";
 			else if(reticularPerc >= 50) junction = "Reticular";
-			print(file, replace(fileList[i], "-EGFP", "")+"\t"+nbNuclei+"\t"+roiID+"\t"+thinArea+"\t"+fingerArea+"\t"+reticularArea+"\t"+bgArea+"\t"+thinPerc+"\t"+fingerPerc+"\t"+reticularPerc+"\t"+bgPerc+"\t"+junction+"\n");
+			
+			// Background not taken into account
+			cellSizeNoBg = cellSize - bgArea;
+			thinPercNoBg = thinArea / cellSizeNoBg * 100;
+			fingerPercNoBg = fingerArea / cellSizeNoBg * 100;
+			reticularPercNoBg = reticularArea / cellSizeNoBg * 100;
+			
+			junctionNoBg = "";
+			if(thinPercNoBg >= 50) junctionNoBg = "Thin";
+			else if(fingerPercNoBg >= 50) junctionNoBg = "Finger";
+			else if(reticularPercNoBg >= 50) junctionNoBg = "Reticular";
+	
+			print(file, replace(fileList[i], "-EGFP", "")+"\t"+nbNuclei+"\t"+roiID+"\t"+thinArea+"\t"+fingerArea+"\t"+reticularArea+"\t"+bgArea+"\t"+thinPerc+"\t"+fingerPerc+"\t"+reticularPerc+"\t"+bgPerc+"\t"+junction+"\t"+thinPercNoBg+"\t"+fingerPercNoBg+"\t"+reticularPercNoBg+"\t"+junctionNoBg+"\n");
 			roiID++;
 		}
 	}
