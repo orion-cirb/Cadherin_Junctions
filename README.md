@@ -32,5 +32,5 @@
 Version 1 released on April 26, 2023.
 
 Version 2 released on May 10, 2023: postprocessing_v2.ijm* or *postprocessing_v2_grid.ijm.
-Measure the area of the 5 different classes (in the entire image or in each 64x64 pixels<sup>2</sup> cell of a grid).
+\n Measure the area of the 5 different classes (in the entire image or in each 64x64 pixels<sup>2</sup> cell of a grid).
 
