@@ -1,0 +1,4 @@
+cd /opt/ilastik-1.4.0/
+
+./run_ilastik.sh /home/heloise/Images/Germain/Cadherin/Round3/Noyaux/*.tif --headless --project=/home/heloise/Images/Germain/Cadherin/Round3/Noyaux.ilp --output_format=tiff --output_filename_format=/home/heloise/Images/Germain/Cadherin/Round3/Noyaux_ilastik/{nickname}.tif --export_source="Simple Segmentation"
+
