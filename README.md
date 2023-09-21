@@ -8,7 +8,7 @@
 
 ### Images description
 
-2D images taken with a x63 objective on a widefield microscope
+3D images taken with a x63 objective on a widefield microscope
 
 2 channels:
   1. *EGFP:* Cadherin junctions
