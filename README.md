@@ -26,6 +26,10 @@
   * DAPI channel: count the number of nuclei
   * EGFP channel: measure the area of the 4 different classes (in the entire image or in each 64x64 pixels<sup>2</sup> cell of a grid)
 
+### Dependencies
+
+* [**Find Focused Slices**]([url](https://sites.google.com/site/qingzongtseng/find-focus)) Fiji plugin
+* [**ilastik**]([url](https://www.ilastik.org/)) software
 
 ### Version history
 
