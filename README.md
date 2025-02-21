@@ -28,8 +28,8 @@
 
 ### Dependencies
 
-* [**Find Focused Slices**]([url](https://sites.google.com/site/qingzongtseng/find-focus)) Fiji plugin
-* [**ilastik**]([url](https://www.ilastik.org/)) software
+* [**Find Focused Slices**](https://sites.google.com/site/qingzongtseng/find-focus) Fiji plugin
+* [**ilastik**](https://www.ilastik.org/) software
 
 ### Version history
 
